@@ -1,0 +1,57 @@
+.header {
+  display: flex;
+  background: #5d5f62;
+  padding: 15px 20px;
+  align-items: center;
+}
+
+.logo {
+  font-size: 35px;
+  font-weight: 600;
+}
+
+.user {
+  display: flex;
+  line-height: 1.2em;
+  font-size: 14px;
+
+  &__avatar {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+
+    &__balance {
+      margin-top: 8px;
+    }
+  }
+}
+
+.navbar {
+  display: flex;
+  flex: 1 1 auto;
+  margin-left: 60px;
+  gap: 50px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 20px;
+
+    &__icon {
+      margin-right: 5px;
+    }
+  }
+}
+
+.green {
+  color: #00b212;
+}

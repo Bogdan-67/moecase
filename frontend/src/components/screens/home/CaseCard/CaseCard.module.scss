@@ -1,0 +1,147 @@
+@import '@/styles/vars';
+$card-bg: #626770;
+
+.card {
+  height: 267px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  &:hover &__stockList_back {
+    transition: all 0.2s ease;
+    margin-top: -30px;
+  }
+
+  &:hover &__stock_back:first-child {
+    transition: all 0.2s ease;
+    transform: rotate(-20deg);
+    margin-top: 20px;
+  }
+
+  &:hover &__stock_back:last-child {
+    transition: all 0.2s ease;
+    transform: rotate(20deg);
+    margin-top: 20px;
+  }
+
+  &:not(:hover) {
+    transform: scale(1);
+  }
+
+  &:not(:hover) &__stockList_back {
+    transition: all 0.2s ease;
+    margin-top: 20px;
+  }
+
+  &:not(:hover) &__stock_back:first-child {
+    transition: all 0.2s ease;
+    transform: rotate(0deg);
+    margin-top: 0px;
+  }
+
+  &:not(:hover) &__stock_back:last-child {
+    transition: all 0.2s ease;
+    transform: rotate(0deg);
+    margin-top: 0px;
+  }
+
+  &__stockList {
+    display: flex;
+    justify-content: center;
+
+    &_front {
+      margin-top: 20px;
+    }
+  }
+
+  &__stock {
+    width: 97px;
+    height: 97px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15));
+
+    &_back,
+    &_front {
+      &:first-child {
+        margin-right: -5px;
+      }
+
+      &:nth-child(2) {
+      }
+
+      &:last-child {
+        margin-left: -5px;
+      }
+    }
+
+    &_back {
+      &:nth-child(2) {
+        z-index: 1;
+      }
+    }
+
+    &_front {
+      &:first-child {
+        z-index: 3;
+      }
+
+      &:nth-child(2) {
+        z-index: 4;
+      }
+
+      &:last-child {
+        z-index: 3;
+      }
+    }
+  }
+
+  &,
+  &__middle,
+  &__front {
+    position: absolute;
+    left: 0;
+    background: $card-bg;
+    border-radius: 30px;
+    box-shadow: 0 0 11px 0 rgba(0, 0, 0, 0.25);
+    border: 1px dashed #414d62;
+    outline: 4px solid $card-bg;
+    width: 335px;
+  }
+
+  &__middle {
+    top: 56px;
+    height: 211px;
+    z-index: 2;
+  }
+
+  &__front {
+    top: 108px;
+    height: 159px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+
+    &__title {
+      color: $text-clr;
+      font-size: 28px;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+
+    &__price {
+      position: relative;
+      color: #848a94;
+      font-size: 32px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+  }
+}
