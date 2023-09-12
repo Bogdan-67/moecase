@@ -1,32 +1,21 @@
-import Image from 'next/image';
-import { useEffect } from 'react';
 import $api from '@/http';
 import Layout from '@/components/Layout';
-import { NextPage } from 'next';
+import { GetServerSideProps, GetStaticProps, NextPage } from 'next';
 import History from '@/components/History';
 import { useGetAllCasesQuery, useGetCaseGroupsQuery } from '@/redux/services/case';
-import { ICase } from '@/models/ICase';
-import CaseCard from './CaseCard';
-import CaseTrack from './CaseTrack';
+import CaseGroup from './CaseGroup';
+import { IGroup, IGroupData } from '@/models/IGroup';
+import { FC } from 'react';
 
-const Home: NextPage = () => {
-  const { data, isLoading, error } = useGetCaseGroupsQuery();
+const Home: FC<IGroupData> = ({ groups }) => {
+  console.log(groups);
 
   return (
-    <Layout>
+    <Layout title='Главная'>
       <History />
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>error</div>
-      ) : (
-        data?.map((group) => (
-          <div>
-            <h2>{group.name}</h2>
-            <CaseTrack id_group={group.id_group} />
-          </div>
-        ))
-      )}
+      {groups?.map((group: IGroup) => (
+        <CaseGroup key={group.id_group} {...group} />
+      ))}
     </Layout>
   );
 };

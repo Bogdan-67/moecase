@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 const CaseCard: NextPage<ICase> = ({ id_case, name, price, group_id, items }) => {
   return (
-    <Link href={'/'} className={styles.card}>
+    <Link href={'/cases/' + id_case} className={styles.card}>
       <div className={classNames(styles.card__stockList, styles.card__stockList_back)}>
         {items.slice(0, 4).map((stock) => (
           <div className={classNames(styles.card__stock, styles.card__stock_back)}>

@@ -4,3 +4,7 @@ export interface IGroup {
   created_at: string;
   position: number;
 }
+
+export interface IGroupData {
+  groups: IGroup[];
+}
