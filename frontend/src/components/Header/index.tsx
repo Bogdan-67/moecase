@@ -34,8 +34,8 @@ const Header: NextPage<Props> = ({ type }) => {
       </div>
       <ul className={styles.navbar}>
         {type === 'user' &&
-          HeaderItems.map((navitem) => (
-            <Link href={navitem.link} className={styles.navbar__item}>
+          HeaderItems.map((navitem, index) => (
+            <Link key={index} href={navitem.link} className={styles.navbar__item}>
               <span className={styles.navbar__item__icon}>{navitem.icon()}</span>
               {navitem.title}
             </Link>
