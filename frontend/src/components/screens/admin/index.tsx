@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 type Props = {};
 
 const Admin: FC = (props: Props) => {
-  return <AdminLayout>admin</AdminLayout>;
+  return <AdminLayout title='Администрирование'></AdminLayout>;
 };
 
 export default Admin;

@@ -30,8 +30,7 @@ const CreateStock = (props: Props) => {
   };
 
   return (
-    <AdminLayout>
-      <h1>Создание предмета</h1>
+    <AdminLayout title='Создание предмета'>
       {isLoading && <div>Loading</div>}
       {error && <div>error</div>}
       <form

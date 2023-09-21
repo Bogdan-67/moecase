@@ -46,6 +46,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  &__title {
+    font-size: 27px;
+    margin-bottom: 20px;
+  }
 }
 
 .active {

@@ -4,7 +4,7 @@ import React from 'react';
 type Props = {};
 
 const AdminGroups = (props: Props) => {
-  return <AdminLayout>groups</AdminLayout>;
+  return <AdminLayout title='Выберите действие'></AdminLayout>;
 };
 
 export default AdminGroups;
