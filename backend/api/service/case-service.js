@@ -1,5 +1,6 @@
 const db = require('../db');
 const CaseCardDTO = require('../dtos/caseCard-dto');
+const ApiError = require('../exceptions/api-error');
 
 class CaseService {
   async getCaseDrop(items) {
@@ -89,6 +90,16 @@ class CaseService {
   }
 
   async createCaseGroup({ name }) {
+    if (!name) {
+      throw ApiError.BadRequest('Название не может быть пустым!');
+    }
+
+    const checkGroup = await db.query(`SELECT * FROM case_groupes WHERE name = $1`, [name]);
+
+    if (checkGroup.rows.length !== 0) {
+      throw ApiError.BadRequest('Группа с таким названием уже существует!');
+    }
+
     const groupsFromDb = await db.query(`SELECT * FROM case_groupes`);
 
     const position = groupsFromDb.rows.length !== 0 ? groupsFromDb.rows.length + 1 : 1;

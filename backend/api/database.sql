@@ -26,8 +26,8 @@ CREATE TABLE inventory(
     FOREIGN KEY (account_id) REFERENCES accounts(id_account) ON DELETE CASCADE
 );
 
-CREATE TABLE drop(
-    id_drop SERIAL PRIMARY KEY,
+CREATE TABLE stocks(
+    id_stock SERIAL PRIMARY KEY,
     ticker VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -43,19 +43,19 @@ CREATE TABLE inventory_items(
     status VARCHAR(255) NOT NULL,
     inventory_id INTEGER,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id_inventory) ON DELETE CASCADE,
-    drop_id INTEGER,
-    FOREIGN KEY (drop_id) REFERENCES drop(id_drop) ON DELETE CASCADE
+    stock_id INTEGER,
+    FOREIGN KEY (stock_id) REFERENCES stocks(id_stock) ON DELETE CASCADE
 );
 
-CREATE TABLE best_drop(
-    id_best_drop SERIAL PRIMARY KEY,
+CREATE TABLE best_stock(
+    id_best_stock SERIAL PRIMARY KEY,
     date DATE DEFAULT current_date,
     price REAL NOT NULL,
     received_from VARCHAR(255),
     account_id INTEGER,
     FOREIGN KEY (account_id) REFERENCES accounts(id_account) ON DELETE CASCADE,
-    drop_id INTEGER,
-    FOREIGN KEY (drop_id) REFERENCES drop(id_drop) ON DELETE CASCADE
+    stock_id INTEGER,
+    FOREIGN KEY (stock_id) REFERENCES stocks(id_stock) ON DELETE CASCADE
 );
 
 CREATE TABLE case_groupes(
@@ -77,8 +77,8 @@ CREATE TABLE case_items(
     id_case_item SERIAL PRIMARY KEY,
     case_id INTEGER,
     FOREIGN KEY (case_id) REFERENCES cases(id_case) ON DELETE CASCADE,
-    drop_id INTEGER,
-    FOREIGN KEY (drop_id) REFERENCES drop(id_drop) ON DELETE CASCADE
+    stock_id INTEGER,
+    FOREIGN KEY (stock_id) REFERENCES stocks(id_stock) ON DELETE CASCADE
 );
 
 CREATE TABLE favorites(

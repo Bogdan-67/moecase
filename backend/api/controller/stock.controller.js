@@ -1,19 +1,19 @@
-const dropService = require('../service/drop-service');
+const stockService = require('../service/stock-service');
 const uuid = require('uuid');
 const path = require('path');
 const sharp = require('sharp');
 const fs = require('fs');
 
-class DropController {
-  async getAllDrop(req, res, next) {
+class StockController {
+  async getAllStock(req, res, next) {
     try {
-      const drop = await dropService.getAllDrop();
-      res.status(200).json(drop);
+      const stock = await stockService.getAllStock();
+      res.status(200).json(stock);
     } catch (e) {
       next(e);
     }
   }
-  async createDrop(req, res, next) {
+  async createStock(req, res, next) {
     try {
       console.log(req.body);
       console.log(req.files);
@@ -49,13 +49,13 @@ class DropController {
         });
       }
 
-      const drop = await dropService.createDrop(ticker, name, description, logoName, color);
-      res.status(200).json(drop);
+      const stock = await stockService.createStock(ticker, name, description, logoName, color);
+      res.status(200).json(stock);
     } catch (e) {
       next(e);
     }
   }
-  async editDrop(req, res, next) {
+  async editStock(req, res, next) {
     try {
       const { ticker, name, description, color, oldLogo } = req.body;
 
@@ -98,28 +98,28 @@ class DropController {
         });
       }
 
-      const drop = await dropService.createDrop(ticker, name, description, logoName, color);
-      res.status(200).json(drop);
+      const stock = await stockService.createStock(ticker, name, description, logoName, color);
+      res.status(200).json(stock);
     } catch (e) {
       next(e);
     }
   }
-  async deleteDrop(req, res, next) {
+  async deleteStock(req, res, next) {
     try {
-      const { id_drop } = req.body;
-      await dropService.deleteDrop(id_drop);
+      const { id_stock } = req.body;
+      await stockService.deleteStock(id_stock);
       res.status(200);
     } catch (e) {
       next(e);
     }
   }
-  async getOneDrop(req, res, next) {
+  async getOneStock(req, res, next) {
     try {
-      const drop = await dropService.getOneDrop(req.params);
-      res.status(200).json(drop);
+      const stock = await stockService.getOneStock(req.params);
+      res.status(200).json(stock);
     } catch (e) {
       next(e);
     }
   }
 }
-module.exports = new DropController();
+module.exports = new StockController();

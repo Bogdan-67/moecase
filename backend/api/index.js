@@ -9,7 +9,7 @@ const userRouter = require('./routes/user.routes');
 const authRouter = require('./routes/auth.routes');
 const roleRouter = require('./routes/role.routes');
 const pricesRouter = require('./routes/prices.routes');
-const dropRouter = require('./routes/drop.routes');
+const stockRouter = require('./routes/stock.routes');
 const caseRouter = require('./routes/case.routes');
 const errorMiddleware = require('./middlewares/error-middleware');
 
@@ -33,7 +33,7 @@ app.use('/', authRouter);
 app.use('/', roleRouter);
 app.use('/', pricesRouter);
 app.use('/', caseRouter);
-app.use('/', dropRouter);
+app.use('/', stockRouter);
 app.use(errorMiddleware);
 
 const start = async () => {
