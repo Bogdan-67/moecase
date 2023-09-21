@@ -6,10 +6,10 @@ export const stockApi = createApi({
   reducerPath: 'api/stock',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   endpoints: (build) => ({
-    getStock: build.query<IStock, number>({ query: (id) => `drop/${id}` }),
+    getStock: build.query<IStock, number>({ query: (id) => `stock/${id}` }),
     createStock: build.mutation({
       query: (data) => ({
-        url: `drop`,
+        url: `stock`,
         method: 'POST',
         body: data,
         formData: true,
