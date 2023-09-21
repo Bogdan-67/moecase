@@ -56,6 +56,42 @@ const SidebarItems = [
     },
     parent: 1,
   },
+  {
+    id: 6,
+    title: 'Создание',
+    link: '/create',
+    icon: () => {
+      return <BsArrowReturnRight />;
+    },
+    parent: 2,
+  },
+  {
+    id: 7,
+    title: 'Редактирование',
+    link: '/edit',
+    icon: () => {
+      return <BsArrowReturnRight />;
+    },
+    parent: 2,
+  },
+  {
+    id: 8,
+    title: 'Создание',
+    link: '/create',
+    icon: () => {
+      return <BsArrowReturnRight />;
+    },
+    parent: 3,
+  },
+  {
+    id: 9,
+    title: 'Редактирование',
+    link: '/edit',
+    icon: () => {
+      return <BsArrowReturnRight />;
+    },
+    parent: 3,
+  },
 ];
 
 const AdminSidebar = (props: Props) => {
