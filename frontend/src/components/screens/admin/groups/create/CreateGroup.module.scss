@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+
+  &__input {
+  }
+
+  &__button {
+    display: inline-block;
+    width: 150px;
+  }
+}
