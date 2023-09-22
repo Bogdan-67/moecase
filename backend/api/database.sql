@@ -58,7 +58,7 @@ CREATE TABLE best_stock(
     FOREIGN KEY (stock_id) REFERENCES stocks(id_stock) ON DELETE CASCADE
 );
 
-CREATE TABLE case_groupes(
+CREATE TABLE case_groups(
     id_group SERIAL PRIMARY KEY,
     name VARCHAR(255),
     created_at DATE DEFAULT current_date,
@@ -69,8 +69,9 @@ CREATE TABLE cases(
     id_case SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     price INTEGER NOT NULL,
+    sale_price INTEGER,
     group_id INTEGER,
-    FOREIGN KEY (group_id) REFERENCES case_groupes(id_group) ON DELETE CASCADE
+    FOREIGN KEY (group_id) REFERENCES case_groups(id_group) ON DELETE CASCADE
 );
 
 CREATE TABLE case_items(
@@ -91,3 +92,4 @@ CREATE TABLE favorites(
 
 INSERT INTO roles(role_name) VALUES ('USER') RETURNING *;
 INSERT INTO roles(role_name) VALUES ('ADMIN') RETURNING *;
+INSERT INTO case_groups(id_group, name) VALUES (0, '') RETURNING *;
