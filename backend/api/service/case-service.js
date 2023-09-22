@@ -3,11 +3,15 @@ const CaseCardDTO = require('../dtos/caseCard-dto');
 const ApiError = require('../exceptions/api-error');
 
 class CaseService {
+  isNumber(n) {
+    return !isNaN(parseFloat(n)) && !isNaN(n - 0);
+  }
+
   async getCaseDrop(items) {
     let caseItems = [];
     for (let index in items) {
-      const itemFromDrop = await db.query(`SELECT * FROM drop WHERE id_drop = $1`, [
-        items[index].drop_id,
+      const itemFromDrop = await db.query(`SELECT * FROM stocks WHERE id_stock = $1`, [
+        items[index].stock_id,
       ]);
       caseItems.push(itemFromDrop.rows[0]);
     }
@@ -69,20 +73,42 @@ class CaseService {
     return casesByGroup.filter((item) => item.group_id === id);
   }
 
-  async createCase({ items, name, price, group_id }) {
+  async createCase({ items, name, price, sale_price, group_id }) {
+    if (!name) {
+      throw ApiError.BadRequest('Название не может быть пустым!');
+    }
+
+    if (!price) {
+      throw ApiError.BadRequest('Цена не может быть пустой!');
+    }
+
+    if (!this.isNumber(price)) {
+      throw ApiError.BadRequest('Цена должна быть числом!');
+    }
+
+    if (!group_id) {
+      throw ApiError.BadRequest('Название не может быть пустым!');
+    }
+
+    if (!items) {
+      throw ApiError.BadRequest('В кейсе не может быть ни одного предмета!');
+    }
+
     const newCase = await db.query(
-      `INSERT INTO cases(name, price, group_id) VALUES ($1, $2, $3) RETURNING *`,
-      [name, price, group_id],
+      `INSERT INTO cases(name, price, group_id, sale_price) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [name, price, group_id, sale_price],
     );
     let caseItems = [];
     console.log('items', items);
     for (let index in items) {
       console.log('index', index);
       const newCaseItem = await db.query(
-        `INSERT INTO case_items(case_id, drop_id) VALUES ($1, $2) RETURNING *`,
+        `INSERT INTO case_items(case_id, stock_id) VALUES ($1, $2) RETURNING *`,
         [newCase.rows[0].id_case, items[index]],
       );
-      const itemFromDrop = await db.query(`SELECT * FROM drop WHERE id_drop = $1`, [items[index]]);
+      const itemFromDrop = await db.query(`SELECT * FROM stocks WHERE id_stock = $1`, [
+        items[index],
+      ]);
       caseItems.push(itemFromDrop.rows[0]);
     }
 
@@ -94,18 +120,18 @@ class CaseService {
       throw ApiError.BadRequest('Название не может быть пустым!');
     }
 
-    const checkGroup = await db.query(`SELECT * FROM case_groupes WHERE name = $1`, [name]);
+    const checkGroup = await db.query(`SELECT * FROM case_groups WHERE name = $1`, [name]);
 
     if (checkGroup.rows.length !== 0) {
       throw ApiError.BadRequest('Группа с таким названием уже существует!');
     }
 
-    const groupsFromDb = await db.query(`SELECT * FROM case_groupes`);
+    const groupsFromDb = await db.query(`SELECT * FROM case_groups`);
 
     const position = groupsFromDb.rows.length !== 0 ? groupsFromDb.rows.length + 1 : 1;
 
     const group = await db.query(
-      `INSERT INTO case_groupes(name, position) VALUES ($1, $2) RETURNING *`,
+      `INSERT INTO case_groups(name, position) VALUES ($1, $2) RETURNING *`,
       [name, position],
     );
 
@@ -113,13 +139,13 @@ class CaseService {
   }
 
   async getCaseGroups() {
-    const groups = await db.query(`SELECT * FROM case_groupes`);
+    const groups = await db.query(`SELECT * FROM case_groups`);
     return groups.rows;
   }
 
   async editCaseGroup({ name, id_group }) {
     const edited = await db.query(
-      `UPDATE case_groupes SET name = $1 WHERE id_group = $2 RETURNING *`,
+      `UPDATE case_groups SET name = $1 WHERE id_group = $2 RETURNING *`,
       [name, id_group],
     );
     return edited.rows[0];
@@ -139,7 +165,7 @@ class CaseService {
       [id_group],
     );
     console.log('changed', changed.rows);
-    const deleted = await db.query(`DELETE FROM case_groupes WHERE id_group = $1`, [id_group]);
+    const deleted = await db.query(`DELETE FROM case_groups WHERE id_group = $1`, [id_group]);
 
     return deleted.rows[0];
   }
