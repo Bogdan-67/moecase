@@ -1,9 +1,23 @@
+const MoexAPI = require('moex-api');
+const { BadRequest } = require('../exceptions/api-error');
+const moexApi = new MoexAPI();
+
 const db = require('../db');
 
 class StockService {
-  async getAllStock() {
-    const stock = await db.query(`SELECT * FROM stock`);
-    return stock.rows;
+  async getAllStocks() {
+    const stocks = await db.query(`SELECT * FROM stocks`);
+
+    let stocksData = stocks.rows;
+
+    for (let i = 0; i < stocksData.length; i++) {
+      const moexResponse = await moexApi.securityMarketData(stocksData[i].ticker);
+      stocksData[i] = { ...stocksData[i], price: moexResponse.LAST };
+    }
+
+    console.log(stocksData);
+
+    return stocksData;
   }
 
   async createStock(ticker, name, description, logo, color) {

@@ -5,9 +5,9 @@ const sharp = require('sharp');
 const fs = require('fs');
 
 class StockController {
-  async getAllStock(req, res, next) {
+  async getAllStocks(req, res, next) {
     try {
-      const stock = await stockService.getAllStock();
+      const stock = await stockService.getAllStocks();
       res.status(200).json(stock);
     } catch (e) {
       next(e);
