@@ -20,11 +20,12 @@ class StockService {
     return stocksData;
   }
 
-  async createStock(ticker, name, description, logo, color) {
+  async createStock(ticker, name, description, logo, color, lot) {
     if (!color) color = 'e8e8e8';
+    if (!lot) lot = 1;
     const created = await db.query(
-      `INSERT INTO stocks(ticker, name, description, logo, color) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [ticker, name, description, logo, color],
+      `INSERT INTO stocks(ticker, name, description, logo, color, lot) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [ticker, name, description, logo, color, lot],
     );
     return created.rows[0];
   }

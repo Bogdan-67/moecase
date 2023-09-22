@@ -32,6 +32,7 @@ CREATE TABLE stocks(
     name VARCHAR(255) NOT NULL,
     description TEXT,
     logo VARCHAR(255) NOT NULL,
+    lot INTEGER NOT NULL DEFAULT 1,
     color VARCHAR(6)
 );
 
