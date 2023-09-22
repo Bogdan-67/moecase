@@ -102,6 +102,7 @@ const AdminSidebar = (props: Props) => {
       {SidebarItems.filter((item) => item.parent === null).map((item) => (
         <>
           <Link
+            key={item.id}
             href={ADMIN_PATH + item.link}
             className={classNames(styles.sidebar__item, {
               [styles.active]: pathname.includes(ADMIN_PATH + item.link),
@@ -112,6 +113,7 @@ const AdminSidebar = (props: Props) => {
           {pathname.includes(ADMIN_PATH + item.link) &&
             SidebarItems.filter((child) => child.parent === item.id).map((child) => (
               <Link
+                key={child.id}
                 href={ADMIN_PATH + item.link + child.link}
                 className={classNames(styles.sidebar__item, styles.sidebar__item__child, {
                   [styles.active]: pathname.includes(child.link),
