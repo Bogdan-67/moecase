@@ -12,7 +12,19 @@ export const caseApi = createApi({
       query: (id_group) => `cases?group_id=${id_group}`,
     }),
     getCaseGroups: build.query<IGroup[], void>({ query: () => 'case-groups' }),
+    createCase: build.mutation({
+      query: (data) => ({
+        url: `case`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllCasesQuery, useGetCasesByGroupQuery, useGetCaseGroupsQuery } = caseApi;
+export const {
+  useGetAllCasesQuery,
+  useGetCasesByGroupQuery,
+  useGetCaseGroupsQuery,
+  useCreateCaseMutation,
+} = caseApi;
