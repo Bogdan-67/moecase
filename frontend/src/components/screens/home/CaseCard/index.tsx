@@ -11,25 +11,24 @@ const CaseCard: NextPage<ICase> = ({ id_case, name, price, group_id, items }) =>
   return (
     <Link href={'/cases/' + id_case} className={styles.card}>
       <div className={classNames(styles.card__stockList, styles.card__stockList_back)}>
-        {items.slice(0, 4).map((stock) => (
-          <div className={classNames(styles.card__stock, styles.card__stock_back)}>
+        {items.slice(0, 3).map((stock) => (
+          <div
+            key={stock.id_stock}
+            className={classNames(styles.card__stock, styles.card__stock_back)}>
             <Image src={API_URL + stock.logo} alt={stock.name} objectFit='cover' fill={true} />
           </div>
         ))}
       </div>
       <div className={styles.card__middle}>
         <div className={classNames(styles.card__stockList, styles.card__stockList_front)}>
-          {/* {items.length > 3 &&
+          {items.length > 3 &&
             items.slice(3, items.length).map((stock) => (
-              <div className={classNames(styles.card__stock, styles.card__stock_front)}>
+              <div
+                key={stock.id_stock}
+                className={classNames(styles.card__stock, styles.card__stock_front)}>
                 <Image src={API_URL + stock.logo} alt={stock.name} objectFit='cover' fill={true} />
               </div>
-            ))} */}
-          {items.slice(0, 4).map((stock) => (
-            <div className={classNames(styles.card__stock, styles.card__stock_front)}>
-              <Image src={API_URL + stock.logo} alt={stock.name} objectFit='cover' fill={true} />
-            </div>
-          ))}
+            ))}
         </div>
       </div>
       <div className={styles.card__front}>
