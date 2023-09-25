@@ -1,4 +1,5 @@
 import AdminLayout from '@/components/AdminLayout';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 import { IStock } from '@/models/IStock';
 import { useCreateStockMutation } from '@/redux/services/stock';
 import React, { ChangeEvent, useState } from 'react';
@@ -27,11 +28,12 @@ const CreateStock = (props: Props) => {
     createStock(formData).then(() => {
       console.log('sended');
     });
+    setInputData({});
   };
 
   return (
     <AdminLayout title='Создание предмета'>
-      {isLoading && <div>Loading</div>}
+      {isLoading && <LoadingSpinner />}
       {error && <div>error</div>}
       <form
         onSubmit={handleSubmit}
