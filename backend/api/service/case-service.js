@@ -1,6 +1,8 @@
 const db = require('../db');
 const CaseCardDTO = require('../dtos/caseCard-dto');
 const ApiError = require('../exceptions/api-error');
+const MoexAPI = require('moex-api');
+const moexApi = new MoexAPI();
 
 class CaseService {
   isNumber(n) {
@@ -10,10 +12,12 @@ class CaseService {
   async getCaseDrop(items) {
     let caseItems = [];
     for (let index in items) {
-      const itemFromDrop = await db.query(`SELECT * FROM stocks WHERE id_stock = $1`, [
+      const itemFromStocks = await db.query(`SELECT * FROM stocks WHERE id_stock = $1`, [
         items[index].stock_id,
       ]);
-      caseItems.push(itemFromDrop.rows[0]);
+      const moexResponse = await moexApi.securityMarketData(itemFromStocks.rows[0].ticker);
+      const itemWithPrice = { ...itemFromStocks.rows[0], price: moexResponse.LAST };
+      caseItems.push(itemWithPrice);
     }
     return caseItems;
   }
@@ -42,22 +46,10 @@ class CaseService {
     return response;
   }
 
-  async getCasesByGroup({ group_id }) {
-    console.log(group_id);
-    if (!group_id) {
-      console.log('!group_id');
-      const cases = await db.query(`SELECT * FROM cases`);
-      console.log(cases.rows);
-    } else {
-      console.log('group_id');
-      const cases = await db.query(`SELECT * FROM cases WHERE group_id = $1`, [group_id]);
-    }
-    const response = await this.fillCases(cases.rows);
-    console.log(response);
-    return response;
-  }
-
   async getCaseById({ id }) {
+    if (!id) {
+      throw ApiError.BadRequest('Поле id не может быть пустым!');
+    }
     const caseFromDb = await db.query(`SELECT * FROM cases WHERE id_case = $1`, [id]);
     const caseItems = await db.query(`SELECT * FROM case_items WHERE case_id = $1`, [
       caseFromDb.rows[0].id_case,
@@ -65,12 +57,6 @@ class CaseService {
     const items = await this.getCaseDrop(caseItems.rows);
 
     return { ...caseFromDb.rows[0], items: [...items] };
-  }
-
-  async getCasesByGroup({ id }) {
-    const casesByGroup = await this.getAllCases();
-
-    return casesByGroup.filter((item) => item.group_id === id);
   }
 
   async createCase({ items, name, price, sale_price, group_id }) {

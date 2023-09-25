@@ -19,15 +19,6 @@ class CaseController {
     }
   }
 
-  async getCasesByGroup(req, res, next) {
-    try {
-      const casesByGroup = await caseService.getCasesByGroup(req.params);
-      res.status(200).json(casesByGroup);
-    } catch (e) {
-      next(e);
-    }
-  }
-
   async createCase(req, res, next) {
     try {
       const newCase = await caseService.createCase(req.body);
