@@ -22,6 +22,14 @@
     align-items: center;
     justify-content: center;
     padding: 0 20px;
+    box-shadow: 0 0 6px 0 #00000070;
+
+    p {
+      text-overflow: ellipsis;
+      white-space: wrap;
+      overflow: hidden;
+      max-width: 148px;
+    }
   }
 
   &__price {
@@ -35,5 +43,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 6px 0 #00000096;
   }
 }

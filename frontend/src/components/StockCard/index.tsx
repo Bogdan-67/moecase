@@ -12,8 +12,12 @@ const StockCard: FC<Props> = ({ stock }) => {
   return (
     <div className={styles.stock}>
       <Image src={API_URL + stock.logo} alt={stock.name} fill={true} objectFit='cover' />
-      <p className={styles.stock__name}>{stock.name}</p>
-      <span className={styles.stock__price}>{stock.price} ₽</span>
+      <div className={styles.stock__name}>
+        <p title={stock.name}>{stock.name}</p>
+      </div>
+      <span className={styles.stock__price} title={`${stock.price} ₽`}>
+        {stock.price} ₽
+      </span>
     </div>
   );
 };
