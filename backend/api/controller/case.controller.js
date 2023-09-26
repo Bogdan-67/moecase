@@ -19,6 +19,15 @@ class CaseController {
     }
   }
 
+  async openCase(req, res, next) {
+    try {
+      const result = await caseService.openCase(req.body);
+      res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async createCase(req, res, next) {
     try {
       const newCase = await caseService.createCase(req.body);

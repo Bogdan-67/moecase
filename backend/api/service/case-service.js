@@ -1,5 +1,5 @@
 const db = require('../db');
-const CaseCardDTO = require('../dtos/caseCard-dto');
+const CaseDTO = require('../dtos/case-dto');
 const ApiError = require('../exceptions/api-error');
 const MoexAPI = require('moex-api');
 const moexApi = new MoexAPI();
@@ -29,7 +29,7 @@ class CaseService {
         cases[index].id_case,
       ]);
       const items = await this.getCaseDrop(caseItems.rows);
-      response.push(new CaseCardDTO({ ...cases[index], items: [...items] }));
+      response.push(new CaseDTO({ ...cases[index], items: [...items] }));
     }
 
     return response;
@@ -57,6 +57,49 @@ class CaseService {
     const items = await this.getCaseDrop(caseItems.rows);
 
     return { ...caseFromDb.rows[0], items: [...items] };
+  }
+
+  async openCase({ id_case, id_account }) {
+    if (!id_case) {
+      throw ApiError.BadRequest('Поле id_case не может быть пустым!');
+    }
+
+    const caseFromDb = await db.query(`SELECT * FROM cases WHERE id_case = $1`, [id_case]);
+    const caseDrop = await this.fillCases([caseFromDb.rows[0]]).then((response) => {
+      return response[0];
+    });
+
+    let sumWeight = 0;
+    const coef = 1; // TODO: Заменить на коеффициент аккаунта
+
+    let caseStocks = caseDrop.items;
+
+    for (let index in caseStocks) {
+      caseStocks[index].weight = Math.pow(
+        1 / Math.abs(caseStocks[index].price - caseDrop.price),
+        coef,
+      );
+      sumWeight += caseStocks[index].weight;
+    }
+
+    for (let index in caseStocks) {
+      caseStocks[index].chance = caseStocks[index].weight / sumWeight;
+    }
+
+    caseStocks = caseStocks.sort((a, b) => {
+      return a.chance > b.chance ? -1 : 1;
+    });
+
+    const roll = Math.random();
+    let cumulative = 0;
+
+    for (let i in caseStocks) {
+      cumulative += caseStocks[i].chance;
+      if (roll < cumulative) {
+        return caseStocks[i];
+        break;
+      }
+    }
   }
 
   async createCase({ items, name, price, sale_price, group_id }) {
@@ -126,7 +169,9 @@ class CaseService {
 
   async getCaseGroups() {
     const groups = await db.query(`SELECT * FROM case_groups`);
-    return groups.rows;
+    return groups.rows.sort((a, b) => {
+      return a.id_group === 0 ? 1 : -1;
+    });
   }
 
   async editCaseGroup({ name, id_group }) {

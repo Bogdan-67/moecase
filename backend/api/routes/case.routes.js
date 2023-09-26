@@ -8,6 +8,7 @@ router.get('/case-groups', caseController.getCaseGroups);
 
 router.post('/case', caseController.createCase);
 router.post('/case-group', caseController.createCaseGroup);
+router.post('/open-case', caseController.openCase);
 
 router.put('/case/:id', caseController.editCase);
 router.put('/case-group/:id', caseController.editCaseGroup);
