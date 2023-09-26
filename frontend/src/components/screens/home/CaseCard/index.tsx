@@ -22,7 +22,7 @@ const CaseCard: NextPage<ICase> = ({ id_case, name, price, group_id, items }) =>
       <div className={styles.card__middle}>
         <div className={classNames(styles.card__stockList, styles.card__stockList_front)}>
           {items.length > 3 &&
-            items.slice(3, items.length).map((stock) => (
+            items.slice(3, items.length < 6 ? items.length : 6).map((stock) => (
               <div
                 key={stock.id_stock}
                 className={classNames(styles.card__stock, styles.card__stock_front)}>
