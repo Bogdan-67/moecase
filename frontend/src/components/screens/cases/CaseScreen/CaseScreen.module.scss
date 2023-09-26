@@ -20,6 +20,10 @@
   align-items: center;
   padding: 40px;
 
+  &__content {
+    min-height: 230px;
+  }
+
   &__title {
     &_main {
       position: relative;

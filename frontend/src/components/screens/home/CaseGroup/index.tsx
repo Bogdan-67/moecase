@@ -3,6 +3,7 @@ import styles from './CaseGroup.module.scss';
 import { useGetCasesByGroupQuery } from '@/redux/services/case';
 import { ICase } from '@/models/ICase';
 import CaseCard from '../CaseCard';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 type Props = {
   id_group: number;
@@ -18,7 +19,7 @@ const CaseGroup: FC<Props> = ({ id_group, name }) => {
 
       <div className={styles.track}>
         {isLoading ? (
-          <div>Loading...</div>
+          <LoadingSpinner />
         ) : error ? (
           <div>error</div>
         ) : (

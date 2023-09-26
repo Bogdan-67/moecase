@@ -1,6 +1,7 @@
 import { API_URL } from '@/http';
 import { ICase } from '@/models/ICase';
 import { IGroup } from '@/models/IGroup';
+import { IStock } from '@/models/IStock';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const caseApi = createApi({
@@ -19,6 +20,15 @@ export const caseApi = createApi({
         body: data,
       }),
     }),
+    openCase: build.mutation({
+      query: (data) => ({
+        url: `open-case`,
+        method: 'POST',
+        body: data,
+      }),
+      transformErrorResponse: (response: { status: string | number; data?: unknown }, meta, arg) =>
+        response.data,
+    }),
   }),
 });
 
@@ -27,4 +37,5 @@ export const {
   useGetCasesByGroupQuery,
   useGetCaseGroupsQuery,
   useCreateCaseMutation,
+  useOpenCaseMutation,
 } = caseApi;
