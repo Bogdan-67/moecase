@@ -1,4 +1,4 @@
-module.exports = class CaseCardDTO {
+module.exports = class CaseDTO {
   id_case;
   name;
   price;
@@ -10,6 +10,6 @@ module.exports = class CaseCardDTO {
     this.name = model.name;
     this.price = model.price;
     this.group_id = model.group_id;
-    this.items = model.items.slice(0, 6);
+    this.items = model.items;
   }
 };
