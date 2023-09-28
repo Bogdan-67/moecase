@@ -2,3 +2,7 @@ $body-bg: #353535; // Цвет заднего фона сайта
 $text-clr: #e0e0e0; // Основной цвет текста
 $dop-back-clr: rgba(223, 40, 40, 0.15); // Дополнительный цвет c 15% прозрачности
 $dop-clr: #df2828; // Дополнительный цвет
+$card-list-h: 200px;
+$card-list-w: 800px;
+$gradient-shade-l: linear-gradient(90deg, $body-bg 0%, rgba(255, 255, 255, 0) 100%);
+$gradient-shade-r: linear-gradient(-90deg, $body-bg 0%, rgba(255, 255, 255, 0) 100%);

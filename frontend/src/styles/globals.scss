@@ -88,3 +88,58 @@ select {
     stroke-dashoffset: -124;
   }
 }
+
+#unbox-area {
+  position: relative;
+}
+
+#cardList {
+  height: $card-list-h;
+  width: $card-list-w;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.card {
+  // position: relative;
+  display: inline-block;
+  text-align: center;
+  width: $card-list-h;
+  height: $card-list-h;
+}
+
+.card > img {
+  width: $card-list-h;
+  height: $card-list-h;
+  pointer-events: none;
+}
+
+.arrow-down {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 2px;
+  height: $card-list-h + 20px;
+  background: #e1b300;
+}
+
+.gradient-shade {
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: $card-list-h;
+
+  &_left {
+    left: 0;
+    background: $gradient-shade-l;
+  }
+
+  &_right {
+    right: 0;
+    background: $gradient-shade-r;
+  }
+}
+
+.reward {
+}
