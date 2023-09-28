@@ -59,7 +59,7 @@ class CaseService {
     return { ...caseFromDb.rows[0], items: [...items] };
   }
 
-  async openCase({ id_case, id_account }) {
+  async openCase({ id_case, id_account, type }) {
     if (!id_case) {
       throw ApiError.BadRequest('Поле id_case не может быть пустым!');
     }
@@ -90,15 +90,31 @@ class CaseService {
       return a.chance > b.chance ? -1 : 1;
     });
 
-    const roll = Math.random();
-    let cumulative = 0;
+    function rollCase() {
+      const roll = Math.random();
+      let cumulative = 0;
 
-    for (let i in caseStocks) {
-      cumulative += caseStocks[i].chance;
-      if (roll < cumulative) {
-        return caseStocks[i];
-        break;
+      for (let i in caseStocks) {
+        cumulative += caseStocks[i].chance;
+        if (roll < cumulative) {
+          return caseStocks[i];
+          break;
+        }
       }
+    }
+
+    const reward = rollCase();
+
+    switch (type) {
+      case 'roll': {
+        const fillers = [...new Array(100)].map((_) => rollCase());
+        return { fillers: [...fillers], reward };
+      }
+      case 'fast': {
+        return { reward };
+      }
+      default:
+        return { reward };
     }
   }
 
