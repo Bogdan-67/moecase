@@ -63,6 +63,7 @@ CREATE TABLE case_groups(
     id_group SERIAL PRIMARY KEY,
     name VARCHAR(255),
     created_at DATE DEFAULT current_date,
+    active BOOLEAN DEFAULT FALSE,
     position INTEGER
 );
 
