@@ -18,13 +18,17 @@ body {
 }
 
 button {
-  background: $dop-back-clr;
+  background: rgba($color: $dop-clr, $alpha: 0.15);
   border: 2px solid $dop-clr;
   border-radius: 10px;
   padding: 7px 10px;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
+    cursor: pointer;
     background: $dop-clr;
   }
 

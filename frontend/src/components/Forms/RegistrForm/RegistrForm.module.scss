@@ -1,0 +1,78 @@
+@import '@/styles/vars';
+
+.checkIcon {
+  position: absolute;
+  top: 11px;
+  right: -25px;
+  font-size: 17px;
+
+  &_false {
+    color: red;
+  }
+
+  &_true {
+    color: #18e700;
+  }
+}
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__forinput {
+    position: relative;
+    color: red;
+    width: 300px;
+
+    input {
+      width: 100%;
+    }
+
+    div {
+      font-size: 10px;
+      text-align: start;
+      margin-left: 10px;
+      margin-top: 5px;
+    }
+  }
+  &__title {
+    margin: 5px auto 5px;
+    font-size: 20px;
+  }
+  &__inputs {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0px;
+    flex-direction: column;
+    transition: 0.2s all;
+  }
+
+  &__input {
+    color: #939393;
+  }
+
+  &__button {
+    margin: 10px auto 0;
+    width: 80%;
+    padding: 10px 30px;
+
+    &_disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+}
+
+/* Стили, применяемые, когда устройство использует тап */
+@media (hover: none) {
+  .auth {
+    &__button {
+      &:hover {
+        background-color: $dop-clr;
+        border: none;
+        color: #fff;
+      }
+    }
+  }
+}
