@@ -11,6 +11,8 @@ import { IStock } from '@/models/IStock';
 import Image from 'next/image';
 import { API_URL } from '@/http';
 import RewardCard from '@/components/RewardCard';
+import classNames from 'classnames';
+import CasePreview from './CasePreview';
 
 type Props = {
   icase: ICase;
@@ -32,6 +34,8 @@ const CaseScreen: FC<Props> = ({ icase }) => {
       .then((response) => {
         setIsSuccess(true);
         setResult(response.reward);
+        const rewardSound = new Audio('/assets/audio/get-reward.mp3');
+        rewardSound.play();
         setIsLoading(false);
       })
       .catch((e) => {
@@ -108,7 +112,9 @@ const CaseScreen: FC<Props> = ({ icase }) => {
             </>
           ) : (
             <>
-              <div className={styles.casePage__content}></div>
+              <div className={styles.casePage__content}>
+                <CasePreview stocks={icase.items} />
+              </div>
               <div className={styles.casePage__buttons}>
                 <button onClick={handleOpen}>Открыть за {icase.price} руб.</button>
                 <button onClick={handleOpenFast}>Открыть быстро</button>
