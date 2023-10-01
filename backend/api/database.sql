@@ -7,11 +7,13 @@ CREATE TABLE accounts(
     id_account SERIAL PRIMARY KEY,
     login VARCHAR(255) NOT NULL,   
     password VARCHAR(255) NOT NULL,
-    role_id INTEGER NOT NULL DEFAULT 1,
-    FOREIGN KEY (role_id) REFERENCES roles(id_role) ON DELETE CASCADE,
     username VARCHAR(255),
     email VARCHAR(255),
-    created_at DATE DEFAULT current_date
+    img VARCHAR(255),
+    balance REAL DEFAULT 0,
+    created_at DATE DEFAULT current_date,
+    role_id INTEGER NOT NULL DEFAULT 1,
+    FOREIGN KEY (role_id) REFERENCES roles(id_role) ON DELETE CASCADE
     );
 
 CREATE TABLE tokens(
