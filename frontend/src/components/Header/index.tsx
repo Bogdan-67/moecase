@@ -1,5 +1,4 @@
-import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -31,13 +30,17 @@ const HeaderItems = [
   },
 ];
 
-const Header: NextPage<Props> = ({ type }) => {
+const Header: FC<Props> = ({ type }) => {
   const { isAuth } = useTypedSelector(SelectAccount);
   const [isOpenLogin, setIsOpenLogin] = useState<boolean>(false);
   const [authType, setAuthType] = useState<string>('login');
   const { username, balance } = useTypedSelector(SelectUser);
 
-  const handleLogin = () => {};
+  useEffect(() => {
+    if (isAuth) {
+      setIsOpenLogin(false);
+    }
+  }, [isAuth]);
 
   return (
     <section className={styles.header}>

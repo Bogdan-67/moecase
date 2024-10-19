@@ -8,12 +8,8 @@ const ApiError = require('../exceptions/api-error');
 const SelectUsersDTO = require('../dtos/selectUsers-dto');
 
 class UserService {
-  async createUser({ name, surname, patronimyc, phone, email, login, password, team }) {
-    const checkPhone = await db.query(`SELECT * FROM users WHERE phone = $1`, [phone]);
-    if (checkPhone.rows[0]) {
-      throw ApiError.BadRequest('Пользователь с таким номером телефона уже зарегистрирован!');
-    }
-    const checkEmail = await db.query(`SELECT * FROM users WHERE email = $1`, [email]);
+  async createUser({ username, email, login, password }) {
+    const checkEmail = await db.query(`SELECT * FROM accounts WHERE email = $1`, [email]);
     if (checkEmail.rows[0]) {
       throw ApiError.BadRequest('Пользователь с такой почтой уже зарегистрирован!');
     }
@@ -21,19 +17,15 @@ class UserService {
     if (checkLogin.rows[0]) {
       throw ApiError.BadRequest('Пользователь с таким логином уже зарегистрирован!');
     }
-    const newUser = await db.query(
-      `INSERT INTO users(name, surname, patronimyc, phone, email, team) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [name, surname, patronimyc, phone, email, team],
-    );
     const hashPassword = await bcrypt.hash(password, 3);
     const newAccount = await db.query(
-      `INSERT INTO accounts(login, password, id_user) VALUES ($1, $2, $3) RETURNING *`,
-      [login, hashPassword, newUser.rows[0].id_user],
+      `INSERT INTO accounts(username, email, login, password) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [username, email, login, hashPassword],
     );
     const role = await db.query(`SELECT * FROM roles WHERE id_role = $1`, [
       newAccount.rows[0].role_id,
     ]);
-    const userDto = new UserDTO({ ...newAccount.rows[0], ...role.rows[0], ...newUser.rows[0] });
+    const userDto = new UserDTO({ ...newAccount.rows[0], ...role.rows[0] });
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveToken(newAccount.rows[0].id_account, tokens.refreshToken);
     return { user: { ...userDto }, ...tokens };

@@ -13,7 +13,6 @@ const CreateCasePage: NextPage<CreateCaseProps> = ({ groups, stocks }) => {
 export const getStaticProps: GetStaticProps<CreateCaseProps> = async () => {
   const { data: groups } = await $api.get<IGroup[]>('case-groups');
   const { data: stocks } = await $api.get<IStock[]>('stocks');
-  console.log(stocks);
 
   return {
     props: { groups, stocks },

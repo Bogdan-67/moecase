@@ -60,9 +60,7 @@ select {
 .spinner {
   animation: rotate 2s linear infinite;
   z-index: 2;
-  width: 50px;
-  height: 50px;
-  margin: 100px auto;
+  margin: auto;
   display: flex;
 
   & .path {

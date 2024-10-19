@@ -72,6 +72,10 @@
     color: #fff;
     font-weight: 600;
 
+    &_loading {
+      background: $dop-clr;
+    }
+
     &_disabled {
       opacity: 0.5;
       pointer-events: none;

@@ -9,6 +9,7 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { connect } from 'react-redux';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import ReCAPTCHA from 'react-google-recaptcha';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 export const phoneNumberMask = [
   '+',
@@ -226,23 +227,29 @@ const InnerForm: React.FC<FormikProps<FormValues>> = (props) => {
       </div>
       <button
         type='submit'
-        className={classnames(styles.auth__button, {
-          [styles.auth__button_disabled]:
-            !values.email ||
-            !values.login ||
-            !values.username ||
-            !values.password ||
-            !values.passwordCheck ||
-            !values.recaptcha ||
-            errors.email ||
-            errors.login ||
-            errors.username ||
-            errors.password ||
-            errors.passwordCheck ||
-            errors.recaptcha,
-        })}
+        className={classnames(
+          styles.auth__button,
+          {
+            [styles.auth__button_disabled]:
+              !values.email ||
+              !values.login ||
+              !values.username ||
+              !values.password ||
+              !values.passwordCheck ||
+              !values.recaptcha ||
+              errors.email ||
+              errors.login ||
+              errors.username ||
+              errors.password ||
+              errors.passwordCheck ||
+              errors.recaptcha,
+          },
+          {
+            [styles.auth__button_loading]: isSubmitting,
+          },
+        )}
         disabled={isSubmitting}>
-        Зарегистрироваться
+        {!isSubmitting ? 'Зарегистрироваться' : <LoadingSpinner size={24} />}
       </button>
     </Form>
   );
@@ -268,7 +275,7 @@ const EnhancedRegistrForm = withFormik<RegistrProps, FormValues>({
 
   validationSchema: RegisterSchema,
 
-  handleSubmit: (values, { props, setSubmitting }) => {
+  handleSubmit: async (values, { props, setSubmitting }) => {
     // const changedPhone = values.phone
     //   .replace(/\)/g, '')
     //   .replace(/\(/g, '')
@@ -277,8 +284,9 @@ const EnhancedRegistrForm = withFormik<RegistrProps, FormValues>({
     const user = { ...values };
     // user.phone = changedPhone;
     user.recaptcha = values.recaptcha;
-    props.registrAccount(user);
-    setSubmittingHigher = setSubmitting;
+    console.log(user);
+    await props.registrAccount(user);
+    setSubmitting(false);
   },
 })(InnerForm);
 

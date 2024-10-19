@@ -16,7 +16,6 @@ interface Params extends ParsedUrlQuery {
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
   const { data } = await CaseService.getAllCases();
-  console.log(data);
 
   return {
     paths: data.map((item) => ({

@@ -1,3 +1,5 @@
+'use client';
+
 import { createSlice, createAsyncThunk, PayloadAction, createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import AuthService from '../../services/AuthService';
@@ -6,6 +8,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { IUser } from '../../models/IUser';
 import { API_URL } from '../../http';
 import { ErrorResponse } from '@/models/response/ErrorResponse';
+import { HYDRATE } from 'next-redux-wrapper';
 
 export type LoginParams = {
   login: string;
@@ -88,7 +91,7 @@ export const checkAuth = createAsyncThunk<AxiosResponse<AuthResponse>, void>(
   'user/checkAuthStatus',
   async (params, { rejectWithValue }) => {
     try {
-      const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
+      const response = await axios.get<AuthResponse>(`${API_URL}refresh`, {
         withCredentials: true,
       });
       console.log('RESPONSE', response);
@@ -186,12 +189,18 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Кейсы для логина
-    builder.addCase(loginAccount.pending, (state) => {
-      console.log('LOADING');
-      state.status = Status.LOADING;
-      state.user = initialState.user;
-    });
+    builder.addCase(HYDRATE, (state, action: any) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }),
+      // Кейсы для логина
+      builder.addCase(loginAccount.pending, (state) => {
+        console.log('LOADING');
+        state.status = Status.LOADING;
+        state.user = initialState.user;
+      });
     builder.addCase(loginAccount.fulfilled, (state, action) => {
       state.user = action.payload.data.user;
       console.log('USer', state.user);

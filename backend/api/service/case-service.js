@@ -16,7 +16,7 @@ class CaseService {
         items[index].stock_id,
       ]);
       const moexResponse = await moexApi.securityMarketData(itemFromStocks.rows[0].ticker);
-      const itemWithPrice = { ...itemFromStocks.rows[0], price: moexResponse.LAST };
+      const itemWithPrice = { ...itemFromStocks.rows[0], price: moexResponse?.LAST };
       caseItems.push(itemWithPrice);
     }
     return caseItems;

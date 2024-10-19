@@ -8,8 +8,6 @@ import { IGroup, IGroupData } from '@/models/IGroup';
 import { FC } from 'react';
 
 const Home: FC<IGroupData> = ({ groups }) => {
-  console.log(groups);
-
   return (
     <Layout title='Главная'>
       <History />

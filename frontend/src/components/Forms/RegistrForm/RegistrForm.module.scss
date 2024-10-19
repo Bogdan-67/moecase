@@ -57,6 +57,10 @@
     width: 80%;
     padding: 10px 30px;
 
+    &_loading {
+      background: $dop-clr;
+    }
+
     &_disabled {
       opacity: 0.5;
       pointer-events: none;

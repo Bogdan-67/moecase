@@ -6,6 +6,7 @@ import LoginSchema from '../../../models/validation/LoginSchema';
 import { loginAccount } from '@/redux/slices/authSlice';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { connect } from 'react-redux';
+import LoadingSpinner from '@/components/LoadingSpinner/LoadingSpinner';
 
 interface FormValues {
   login: string;
@@ -37,12 +38,18 @@ const InnerForm: React.FC<FormikProps<FormValues>> = (props) => {
       </div>
       <button
         type='submit'
-        className={classnames(styles.auth__button, {
-          [styles.auth__button_disabled]:
-            !values.login || !values.password || errors.login || errors.password,
-        })}
+        className={classnames(
+          styles.auth__button,
+          {
+            [styles.auth__button_disabled]:
+              !values.login || !values.password || errors.login || errors.password,
+          },
+          {
+            [styles.auth__button_loading]: isSubmitting,
+          },
+        )}
         disabled={isSubmitting}>
-        Войти
+        {!isSubmitting ? 'Войти' : <LoadingSpinner size={24} />}
       </button>
     </Form>
   );
@@ -64,9 +71,9 @@ const EnhancedLoginForm = withFormik<LoginProps, FormValues>({
 
   validationSchema: LoginSchema,
 
-  handleSubmit: (values, { props, setSubmitting }) => {
-    props.loginAccount(values);
-    setSubmittingHigher = setSubmitting;
+  handleSubmit: async (values, { props, setSubmitting }) => {
+    await props.loginAccount(values);
+    setSubmitting(false);
   },
   displayName: 'LoginForm',
 })(InnerForm);
